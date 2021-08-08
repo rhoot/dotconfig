@@ -74,7 +74,7 @@ bindsym $mod+t layout tabbed
 bindsym $mod+e layout toggle split
 
 bindsym $mod+Shift+f floating toggle
-#bindsym $mod+f focus mode_toggle
+bindsym $mod+b focus mode_toggle
 
 bindsym $mod+q kill
 bindsym $mod+r mode "resize"
@@ -169,6 +169,9 @@ bindsym $mod+l exec "i3lock -c 202020"
 
 # window placement
 for_window [class="^Gnome-calculator$"] floating enable
+for_window [class="^Steam$" title="Friends List"] floating enable
+for_window [class="^Steam$" title="Screenshot Uploader"] floating enable
+for_window [class="^Steam$" title="Self Updater$"] floating enable
 
 # window assignments
 assign [class="^discord$"] $ws0
@@ -181,7 +184,8 @@ assign [class="^Com.github.tkashkin.gamehub$"] $ws3
 assign [class="^Steam$"] $ws3
 
 assign [class="^hollow_knight.x86_64$"] $ws4
-assign [class="^steam_app_.+"] $ws4
+assign [class="^steam_app_"] $ws4
+assign [class="^steam_proton$"] $ws4
 
 
 ###
@@ -198,9 +202,6 @@ smart_borders on
 smart_gaps on
 gaps inner 6
 
-# wallpaper
-exec --no-startup-id "~/.fehbg"
-
 # themes
 exec --no-startup-id /usr/libexec/gsd-xsettings
 
@@ -209,23 +210,23 @@ exec --no-startup-id /usr/libexec/gsd-xsettings
 # Auto start
 ###
 
-# monitor layout
-exec --no-startup-id one_screen.sh true
+# monitor layout + wallpaper
+exec --no-startup-id one_screen.sh && ~/.fehbg
 
 # polybar
 exec_always --no-startup-id ~/.config/i3/polybar.sh &
 
 # compton
-exec --no-startup-id compton --backend glx --vsync opengl-swc --refresh-rate 100 &
+exec_always --no-startup-id pkill compton; compton -b --backend glx --vsync opengl-swc --refresh-rate 100
 
 # keyboard / mouse
-exec --no-startup-id setxkbmap -layout se,us -option grp:win_space_toggle
-exec --no-startup-id xset m 0 0
+exec_always --no-startup-id setxkbmap -layout se,us -option grp:win_space_toggle
+exec_always --no-startup-id xset m 0 0
 
 # bluetooth
 exec --no-startup-id blueman-applet
 
 # screenshots
-bindsym Print exec --no-startup-id flameshot.sh full
-bindsym Shift+Print exec --no-startup-id flameshot.sh gui
-bindsym Alt+Print exec --no-startup-id flameshot.sh screen
+bindsym Print exec --no-startup-id flameshot.sh full -p ~/Pictures/Screenshots
+bindsym Shift+Print exec --no-startup-id flameshot.sh gui -p ~/Pictures/Screenshots
+bindsym Alt+Print exec --no-startup-id flameshot.sh screen -p ~/Pictures/Screenshots

@@ -60,7 +60,7 @@ font-3 = siji:pixelsize=10;1
 
 modules-left = i3
 modules-center = xwindow
-modules-right = compton filesystem pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-right = compton filesystem pulseaudio xkeyboard memory cpu wlan eth battery date powermenu
 
 tray-position = right
 tray-padding = 2
