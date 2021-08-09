@@ -4,7 +4,7 @@
 
 # Requires:
 #
-#   compton   - compositor
+#   picom     - compositor
 #   feh       - wallpaper
 #   pactl     - volume
 #   playerctl - media buttons
@@ -216,8 +216,8 @@ exec --no-startup-id one_screen.sh && ~/.fehbg
 # polybar
 exec_always --no-startup-id ~/.config/i3/polybar.sh &
 
-# compton
-exec_always --no-startup-id pkill compton; compton -b --backend glx --vsync opengl-swc --refresh-rate 100
+# picom
+exec_always --no-startup-id pkill picom; picom -b --backend glx --vsync --refresh-rate 100
 
 # keyboard / mouse
 exec_always --no-startup-id setxkbmap -layout se,us -option grp:win_space_toggle
