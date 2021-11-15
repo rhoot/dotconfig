@@ -4,12 +4,18 @@
 
 # Requires:
 #
-#   picom     - compositor
+#   alacritty - terminal emulator
+#   byobu     - tmux frontend
 #   feh       - wallpaper
+#   flameshot - screenshots
+#   nm-applet - NetworkManager systray icon
 #   pactl     - volume
+#   picom     - compositor
 #   playerctl - media buttons
 #   polybar   - status bar
 #   rofi      - launcher
+#   thunar    - file browser
+#   tmux      - tabbed terminals
 
 set $mod Mod4
 
@@ -27,7 +33,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -c 202020 --nofork
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
-#exec --no-startup-id nm-applet
+exec --no-startup-id nm-applet
 
 # Media buttons
 # set $refresh_i3status killall -SIGUSR1 i3status
@@ -35,16 +41,16 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-bindsym XF86AudioPlay exec playerctl.sh play-pause
-bindsym XF86AudioNext exec playerctl.sh next
-bindsym XF86AudioPrev exec playerctl.sh previous
+bindsym XF86AudioPlay exec ~/.config/i3/playerctl.sh play-pause
+bindsym XF86AudioNext exec ~/.config/i3/playerctl.sh next
+bindsym XF86AudioPrev exec ~/.config/i3/playerctl.sh previous
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal / file browser
 bindsym $mod+BackSpace exec thunar
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec alacritty -e byobu -S .session
 
 
 ###
@@ -153,9 +159,7 @@ bindsym $mod+Shift+Right move workspace to output down
 # i3/Program management
 ###
 
-# bindsym $mod+d exec --no-startup-id dmenu_run
 bindsym $mod+z exec "rofi -modi drun,run -show drun"
-# bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
 # i3 config
 bindsym $mod+Shift+c reload
@@ -172,6 +176,7 @@ for_window [class="^Gnome-calculator$"] floating enable
 for_window [class="^Steam$" title="Friends List"] floating enable
 for_window [class="^Steam$" title="Screenshot Uploader"] floating enable
 for_window [class="^Steam$" title="Self Updater$"] floating enable
+for_window [class="^valheim.x86_64$"] fullscreen enable
 
 # window assignments
 assign [class="^discord$"] $ws0
@@ -179,6 +184,7 @@ assign [class="^discord$"] $ws0
 assign [class="^Firefox$"] $ws1
 
 assign [class="^Gvim$"] $ws2
+assign [class="^neovide$"] $ws2
 
 assign [class="^Com.github.tkashkin.gamehub$"] $ws3
 assign [class="^Steam$"] $ws3
@@ -186,7 +192,9 @@ assign [class="^Steam$"] $ws3
 assign [class="^hollow_knight.x86_64$"] $ws4
 assign [class="^steam_app_"] $ws4
 assign [class="^steam_proton$"] $ws4
-
+assign [class="^Lightning.bin.x86_64$"] $ws4
+assign [class="^ffxivlauncher.exe$"] $ws4
+assign [class="^valheim.x86_64$"] $ws4
 
 ###
 # Style
@@ -211,13 +219,14 @@ exec --no-startup-id /usr/libexec/gsd-xsettings
 ###
 
 # monitor layout + wallpaper
-exec --no-startup-id one_screen.sh && ~/.fehbg
+exec --no-startup-id one_screen.sh
+exec --no-startup-id ~/.fehbg
 
 # polybar
 exec_always --no-startup-id ~/.config/i3/polybar.sh &
 
 # picom
-exec_always --no-startup-id pkill picom; picom -b --backend glx --vsync --refresh-rate 100
+exec_always --no-startup-id pkill picom; picom --experimental-backends -b --backend glx --vsync --refresh-rate 100
 
 # keyboard / mouse
 exec_always --no-startup-id setxkbmap -layout se,us -option grp:win_space_toggle
@@ -227,6 +236,6 @@ exec_always --no-startup-id xset m 0 0
 exec --no-startup-id blueman-applet
 
 # screenshots
-bindsym Print exec --no-startup-id flameshot.sh full -p ~/Pictures/Screenshots
-bindsym Shift+Print exec --no-startup-id flameshot.sh gui -p ~/Pictures/Screenshots
-bindsym Alt+Print exec --no-startup-id flameshot.sh screen -p ~/Pictures/Screenshots
+bindsym Print exec --no-startup-id ~/.config/i3/flameshot.sh full -p ~/Pictures/Screenshots
+bindsym Shift+Print exec --no-startup-id ~/.config/i3/flameshot.sh gui -p ~/Pictures/Screenshots
+bindsym Alt+Print exec --no-startup-id ~/.config/i3/flameshot.sh screen -p ~/Pictures/Screenshots
