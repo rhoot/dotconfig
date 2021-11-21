@@ -49,7 +49,7 @@ add_symlink() {
 }
 
 install_config_dependencies() {
-	sudo dnf -y install ${i3_config_dependencies[*]}
+	sudo dnf -qy install ${i3_config_dependencies[*]}
 }
 
 build_and_install() {
@@ -81,7 +81,7 @@ build_and_install() {
 }
 
 build_i3_gaps() {
-	sudo dnf -y install \
+	sudo dnf -qy install \
 		i3lock \
 		i3status \
 		libXinerama-devel \
@@ -107,7 +107,7 @@ build_i3_gaps() {
 }
 
 build_picom() {
-	sudo dnf -y install \
+	sudo dnf -qy install \
 		dbus-devel \
 		gcc \
 		git \
