@@ -1,0 +1,273 @@
+# Requires:
+#
+#   terminal:
+#       alacritty
+#       byobu
+#       tmux
+#
+#   screenshots:
+#       grim
+#       slurp
+#       swappy
+#
+#   panel:
+#       blueman
+#       nm-applet
+#       waybar
+#
+#   system:
+#       swaybg
+#       swayidle
+#       swaylock
+#
+#   misc:
+#       dunst       - notifications
+#       pactl       - volume
+#       playerctl   - media buttons
+#       rofi        - launcher
+#       thunar      - file browser
+
+set $mod Mod4
+
+
+###
+# Devices
+###
+
+output DP-2 pos 0 0 res 3440x1440@100Hz
+output HDMI-A-1 pos 210 1440 res 1920x1080@60Hz
+
+input * {
+    xkb_layout "se,us"
+    xkb_options "grp:win_space_toggle"
+}
+
+
+###
+# Media buttons
+###
+
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +10%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -10%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym XF86AudioPlay exec ~/.config/sway/playerctl.sh play-pause
+bindsym XF86AudioNext exec ~/.config/sway/playerctl.sh next
+bindsym XF86AudioPrev exec ~/.config/sway/playerctl.sh previous
+
+
+###
+# Screen locking / Idle
+###
+
+exec swayidle -w \
+	timeout 600 'swaylock -c 202020 -k -f' \
+	timeout 900 'swaymsg "output * dpms off"' \
+	resume 'swaymsg "output * dpms on"'
+
+# sleep prevents keyup from waking monitors instantly
+bindsym $mod+l exec 'sleep 0.2; pkill -SIGUSR1 swayidle'
+
+
+###
+# Window management
+###
+
+floating_modifier $mod
+
+focus_follows_mouse no
+
+bindsym $mod+a focus left
+bindsym $mod+d focus right
+bindsym $mod+s focus down
+bindsym $mod+w focus up
+bindsym $mod+x focus parent
+bindsym $mod+c focus child
+
+bindsym $mod+Left move left
+bindsym $mod+Down move down
+bindsym $mod+Up move up
+bindsym $mod+Right move right
+
+bindsym $mod+h split h
+bindsym $mod+v split v
+bindsym $mod+f fullscreen toggle
+
+bindsym $mod+g layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+Shift+f floating toggle
+bindsym $mod+b focus mode_toggle
+
+bindsym $mod+q kill
+bindsym $mod+r mode "resize"
+
+mode "resize" {
+    bindsym a resize shrink width 10 px or 10 ppt
+    bindsym s resize grow height 10 px or 10 ppt
+    bindsym w resize shrink height 10 px or 10 ppt
+    bindsym d resize grow width 10 px or 10 ppt
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+
+
+###
+# Workspace management
+###
+
+set $ws0 "0: "
+set $ws1 "1: "
+set $ws2 "2: "
+set $ws3 "3: "
+set $ws4 "4: "
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+workspace $ws0 output HDMI-A-1
+workspace $ws1 output DP-2
+workspace $ws2 output DP-2
+workspace $ws3 output DP-2
+workspace $ws4 output DP-2
+workspace $ws5 output DP-2
+workspace $ws6 output DP-2
+workspace $ws7 output DP-2
+workspace $ws8 output DP-2
+workspace $ws9 output DP-2
+workspace $ws10 output DP-2
+
+bindcode $mod+49 workspace number $ws0
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+bindcode $mod+Shift+49 move container to workspace number $ws0
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+bindsym $mod+Shift+Left move workspace to output left
+bindsym $mod+Shift+Down move workspace to output down
+bindsym $mod+Shift+Up move workspace to output up
+bindsym $mod+Shift+Right move workspace to output down
+
+
+###
+# Program management
+###
+
+# config
+bindsym $mod+Shift+c reload
+
+# exit
+bindsym $mod+Shift+e exec "swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway?' -B 'Yes, exit sway' 'swaymsg exit'"
+
+# window placement
+for_window [app_id="org.gnome.Calculator"] floating enable
+for_window [class="^Steam$" title="Friends List"] floating enable
+for_window [class="^Steam$" title="Screenshot Uploader"] floating enable
+for_window [class="^Steam$" title="Self Updater$"] floating enable
+for_window [class="^Steam$" title="^Steam Guard"] floating enable
+for_window [class="^Steam$" title="^Steam Login$"] floating enable
+
+# window assignments
+assign [class="^discord$"] $ws0
+
+assign [class="^Firefox$"] $ws1
+
+assign [class="^Gvim$"] $ws2
+assign [class="^neovide$"] $ws2
+
+assign [class="^Steam$"] $ws3
+assign [class="^Minecraft Launcher$"] $ws3
+assign [app_id="^lutris$"] $ws3
+
+assign [class="^hollow_knight.x86_64$"] $ws4
+assign [class="^steam_app_"] $ws4
+assign [class="^steam_proton$"] $ws4
+assign [class="^Lightning.bin.x86_64$"] $ws4
+assign [class="^ffxivlauncher.exe$"] $ws4
+assign [class="^xivlauncher.exe$"] $ws4
+assign [class="^valheim.x86_64$"] $ws4
+assign [class="^Minecraft 1"] $ws4
+
+
+###
+# Style
+###
+
+font monospace 8
+font pango:DejaVu Sans Mono 8
+font pango:JetBrains Mono 8
+
+# no window borders
+for_window [class="."] border pixel 1
+default_border pixel 1
+default_floating_border pixel 1
+
+# gaps
+smart_borders on
+smart_gaps on
+gaps inner 6
+
+# wallpaper
+output * bg ~/.config/wallpaper.jpg fill
+
+
+###
+# External apps
+###
+
+# terminal / file browser
+bindsym $mod+BackSpace exec thunar
+bindsym $mod+Return exec alacritty -e byobu -S .session
+
+# program launcher
+bindsym $mod+z exec "rofi -modi drun,run -show drun"
+
+# network applet
+exec nm-applet --indicator
+
+# bluetooth
+exec blueman-applet
+
+# screenshots
+bindsym Print exec ~/.config/sway/grim.sh
+bindsym Ctrl+Print exec ~/.config/sway/grim.sh screen
+bindsym Mod1+Print exec ~/.config/sway/grim.sh window
+bindsym Shift+Print exec ~/.config/sway/grim.sh selection
+
+# panel
+exec waybar
+
+# notifications
+exec dunst
+
+
+###
+# System junk...
+###
+
+exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+include /etc/sway/config.d/*
