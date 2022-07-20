@@ -33,3 +33,30 @@ find_upward() {
 	done
 }
 
+os_like() {
+	grep ID_LIKE= /etc/os-release | cut -d= -f2
+}
+
+is_fedora() {
+	grep ID_LIKE= /etc/os-release | grep -q fedora
+	return $?
+}
+
+is_arch() {
+	grep ID_LIKE= /etc/os-release | grep -q arch
+	return $?
+}
+
+install_pkgs() {
+	case $(os_like) in
+		"arch")
+			sudo pacman -Syu --noconfirm --needed $@
+			;;
+		"fedora")
+			sudo dnf -qy install $@
+			;;
+		*)
+			printf "\033[31merr: unknown distribution\033[0m\n" > /dev/stderr
+			;;
+	esac
+}

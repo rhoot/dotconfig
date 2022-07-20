@@ -34,8 +34,9 @@ set $mod Mod4
 # Devices
 ###
 
-output DP-2 pos 0 0 res 3440x1440@100Hz
-output HDMI-A-1 pos 210 1440 res 1920x1080@60Hz
+output DP-1 pos 0 0 res 3440x1440@175Hz adaptive_sync off
+output HDMI-A-1 pos 700 1440 res 1920x1080@60Hz
+#output HDMI-A-1 disable
 
 input * {
     xkb_layout "se,us"
@@ -232,7 +233,7 @@ smart_gaps on
 gaps inner 6
 
 # wallpaper
-output * bg ~/.config/wallpaper.jpg fill
+output * bg ~/.config/wallpaper.png fill
 
 
 ###
