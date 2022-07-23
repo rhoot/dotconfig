@@ -185,6 +185,7 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+e exec "swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway?' -B 'Yes, exit sway' 'swaymsg exit'"
 
 # window placement
+for_window [title=".*"] inhibit_idle fullscreen
 for_window [app_id="org.gnome.Calculator"] floating enable
 for_window [class="^Steam$" title="Friends List"] floating enable
 for_window [class="^Steam$" title="Screenshot Uploader"] floating enable

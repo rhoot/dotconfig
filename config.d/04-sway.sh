@@ -1,6 +1,16 @@
-#!/usr/bin/env -S bash -ex
+#!/usr/bin/env -S bash -e
 
 source util.sh
+
+case $(os_like) in
+	"arch")
+		install_pkgs libpulse yay
+		yay -S sway-git swaybg-git wlroots-git
+		;;
+	"fedora")
+		install_pkgs pulseaudio-utils sway swaybg
+		;;
+esac
 
 install_pkgs \
 	alacritty \
@@ -10,21 +20,10 @@ install_pkgs \
 	network-manager-applet \
 	playerctl \
 	slurp \
-	sway \
-	swaybg \
 	swayidle \
 	swaylock \
 	thunar \
 	tmux
-
-case $(os_like) in
-	"arch")
-		install_pkgs libpulse
-		;;
-	"fedora")
-		install_pkgs pulseaudio-utils
-		;;
-esac
 
 add_symlink ~/.config/sway sway
 sudo cp sway/sway.sh /usr/local/bin/sway.sh
@@ -45,7 +44,8 @@ if [ ! -f ~/.config/wallpaper.png ]; then
 	done
 
 	if [ -z "$largest_image" ]; then
-		echo "Remember to set a wallpaper!" > /dev/stderr
+		echo "Remember to set a wallpaper!"
+		read
 	elif [[ "$largest_image" == *.jpg ]]; then
 		convert "$largest_image" ~/.config/wallpaper.png
 	else
