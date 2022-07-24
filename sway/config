@@ -21,7 +21,7 @@
 #       swaylock
 #
 #   misc:
-#       dunst       - notifications
+#       mako        - notifications
 #       pactl       - volume
 #       playerctl   - media buttons
 #       rofi        - launcher
@@ -264,7 +264,7 @@ bindsym Shift+Print exec ~/.config/sway/grim.sh selection
 exec waybar
 
 # notifications
-exec dunst
+exec mako
 
 
 ###

@@ -1,0 +1,11 @@
+font=JetBrains Mono 10
+background-color=#0f1212da
+text-color=#e3e3e3
+width=400
+height=150
+margin=6
+padding=25
+border-size=0
+max-icon-size=32
+default-timeout=6000
+output=DP-1

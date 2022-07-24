@@ -20,6 +20,7 @@ install_pkgs \
 	network-manager-applet \
 	playerctl \
 	slurp \
+	swappy \
 	swayidle \
 	swaylock \
 	thunar \
