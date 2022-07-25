@@ -33,30 +33,58 @@ find_upward() {
 	done
 }
 
+# has_bin(name)
+has_bin() {
+	which "$1" > /dev/null 2>&1
+	return $?
+}
+
+# os_like()
 os_like() {
 	grep ID_LIKE= /etc/os-release | cut -d= -f2
 }
 
+# is_fedora()
 is_fedora() {
 	grep ID_LIKE= /etc/os-release | grep -q fedora
 	return $?
 }
 
+# is_arch()
 is_arch() {
 	grep ID_LIKE= /etc/os-release | grep -q arch
 	return $?
 }
 
+# pacman_install(pkgs...)
+pacman_install() {
+	if has_bin pacman; then
+		sudo pacman -Syu --noconfirm --needed $@
+	fi
+}
+
+# dnf_install(pkgs...)
+dnf_install() {
+	if has_bin dnf; then
+		sudo dnf -qy install $@
+	fi
+}
+
+# yay_install(pkgs...)
+yay_install() {
+	if has_bin yay; then
+		# There doesn't seem to be a way to have yay ignore already installed packages so... filter
+		# the installed packages manually...
+		pkgs=("$@")
+		for index in "${!pkgs[@]}"; do
+			yay -Qm "${pkgs[$index]}" > /dev/null 2>&1 && unset -v 'pkgs[$index]'
+		done
+		yay -S "${pkgs[@]}"
+	fi
+}
+
+# install_pkgs(pkgs...)
 install_pkgs() {
-	case $(os_like) in
-		"arch")
-			sudo pacman -Syu --noconfirm --needed $@
-			;;
-		"fedora")
-			sudo dnf -qy install $@
-			;;
-		*)
-			printf "\033[31merr: unknown distribution\033[0m\n" > /dev/stderr
-			;;
-	esac
+	dnf_install "$@"
+	pacman_install "$@"
 }

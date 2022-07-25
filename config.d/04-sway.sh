@@ -1,55 +1,34 @@
-#!/usr/bin/env -S bash -e
+#!/usr/bin/env -S bash -ex
 
 source util.sh
 
-case $(os_like) in
-	"arch")
-		install_pkgs libpulse yay
-		yay -S sway-git swaybg-git wlroots-git
-		;;
-	"fedora")
-		install_pkgs pulseaudio-utils sway swaybg
-		;;
-esac
+# Write a custom launch script for sway to set environment variables
+sudo tee /usr/local/bin/sway.sh > /dev/null <<'EOT'
+#!/usr/bin/env bash
 
-install_pkgs \
-	alacritty \
-	blueman \
-	byobu \
-	grim \
-	network-manager-applet \
-	playerctl \
-	slurp \
-	swappy \
-	swayidle \
-	swaylock \
-	thunar \
-	tmux
+export SDL_VIDEODRIVER=wayland
+export _JAVA_AWT_WM_NONREPARENTING=1
+export QT_QPA_PLATFORM=wayland
+export XDG_CURRENT_DESKTOP=sway
+export XDG_SESSION_DESKTOP=sway
 
-add_symlink ~/.config/sway sway
-sudo cp sway/sway.sh /usr/local/bin/sway.sh
+# systemd environment.d env variables
+# https://github.com/systemd/systemd/issues/7641
+if [ -f /usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator ]; then
+	set -a
+	. /dev/fd/0 <<EOF
+$(/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator)
+EOF
+	set +a
+fi
+
+exec sway "$@"
+EOT
+
+# Make the sway wayland session run the script instead of the executable
 sudo sed -iE 's/^Exec=sway$/Exec=sway.sh/' /usr/share/wayland-sessions/sway.desktop
 
-# sway _requires_ a background if the config has one, so create it if it doesn't exist
+# Sway requires a background if the config specifies one, so create one if it doesn't exist
 if [ ! -f ~/.config/wallpaper.png ]; then
-	largest_image=
-	largest_image_x=0
-
-	for f in $(find /usr/share/wallpapers -name '*.jpg' -or -name '*.png'); do
-		image_x=$(convert "$f" -print "%w" /dev/null)
-
-		if [ $image_x -gt $largest_image_x ]; then
-			largest_image="$f"
-			largest_image_x=$image_x
-		fi
-	done
-
-	if [ -z "$largest_image" ]; then
-		echo "Remember to set a wallpaper!"
-		read
-	elif [[ "$largest_image" == *.jpg ]]; then
-		convert "$largest_image" ~/.config/wallpaper.png
-	else
-		cp "$largest_image" ~/.config/wallpaper.png
-	fi
+	cp files/black.png ~/.config/wallpaper.png
 fi

@@ -1,4 +1,4 @@
-#!/usr/bin/env -S bash -e
+#!/usr/bin/env -S bash -ex
 
 source util.sh
 
@@ -19,10 +19,7 @@ get_rofi_fedora() {
 
 	# dependencies
 	sudo dnf -qy builddep rofi
-	sudo dnf -qy install \
-		meson \
-		wayland-devel \
-		wayland-protocols-devel
+	dnf_install meson wayland-devel wayland-protocols-devel
 
 	# build
 	pushd "$rofi_repo"
@@ -34,19 +31,11 @@ get_rofi_fedora() {
 	sudo cp "$rofi_repo/build/rofi" /usr/local/bin/rofi
 }
 
-get_rofi_arch() {
-	yay -S rofi-lbonn-wayland
-}
-
-if ! which rofi 2> /dev/null; then
-	case $(os_like) in
-		"arch")
-			get_rofi_arch
-			;;
-		"fedora")
-			get_rofi_fedora
-			;;
-	esac
+if ! has_bin rofi; then
+	if has_bin yay; then
+		yay_install rofi-lbonn-wayland
+	elif is_fedora; then
+		get_rofi_fedora
+	fi
 fi
 
-add_symlink ~/.config/rofi rofi
