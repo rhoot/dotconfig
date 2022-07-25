@@ -1,9 +1,7 @@
 # Requires:
 #
 #   terminal:
-#       alacritty
-#       byobu
-#       tmux
+#       kitty
 #
 #   screenshots:
 #       grim
@@ -94,7 +92,6 @@ bindsym $mod+h split h
 bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
-bindsym $mod+g layout stacking
 bindsym $mod+t layout tabbed
 bindsym $mod+e layout toggle split
 
@@ -243,7 +240,7 @@ output * bg ~/.config/wallpaper.png fill
 
 # terminal / file browser
 bindsym $mod+BackSpace exec thunar
-bindsym $mod+Return exec alacritty -e byobu -S .session
+bindsym $mod+Return exec kitty
 
 # program launcher
 bindsym $mod+z exec "rofi -modi drun,run -show drun"
