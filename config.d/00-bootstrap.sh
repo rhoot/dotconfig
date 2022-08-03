@@ -26,8 +26,8 @@ install_pkgs \
 	thunar
 
 # Arch packages
-pacman_install libpulse otf-font-awesome yay
+pacman_install libpulse lxsession otf-font-awesome yay
 yay_install sway-git swaybg-git wlroots-git
 
 # Fedora packages
-dnf_install pulseaudio-utils sway swaybg
+dnf_install lxpolkit pulseaudio-utils sway swaybg

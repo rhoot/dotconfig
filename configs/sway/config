@@ -19,6 +19,7 @@
 #       swaylock
 #
 #   misc:
+#       lxpolkit    - polkit agent
 #       mako        - notifications
 #       pactl       - volume
 #       playerctl   - media buttons
@@ -245,24 +246,17 @@ bindsym $mod+Return exec kitty
 # program launcher
 bindsym $mod+z exec "rofi -modi drun,run -show drun"
 
-# network applet
-exec nm-applet --indicator
-
-# bluetooth
-exec blueman-applet
-
 # screenshots
 bindsym Print exec ~/.config/sway/grim.sh
 bindsym Ctrl+Print exec ~/.config/sway/grim.sh screen
 bindsym Mod1+Print exec ~/.config/sway/grim.sh window
 bindsym Shift+Print exec ~/.config/sway/grim.sh selection
 
-# panel
-exec waybar
-
-# notifications
+exec blueman-applet
+exec lxpolkit
 exec mako
-
+exec nm-applet --indicator
+exec waybar
 
 ###
 # System junk...
