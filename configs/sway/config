@@ -27,15 +27,16 @@
 #       thunar      - file browser
 
 set $mod Mod4
+set $primary DP-1
+set $secondary HDMI-A-1
 
 
 ###
 # Devices
 ###
 
-output DP-1 pos 0 0 res 3440x1440@175Hz adaptive_sync off
-output HDMI-A-1 pos 700 1440 res 1920x1080@60Hz
-#output HDMI-A-1 disable
+output $primary pos 0 0 res 3440x1440@175Hz adaptive_sync off
+output $secondary pos 700 1440 res 1920x1080@60Hz
 
 input * {
     xkb_layout "se,us"
@@ -130,17 +131,17 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
-workspace $ws0 output HDMI-A-1
-workspace $ws1 output DP-2
-workspace $ws2 output DP-2
-workspace $ws3 output DP-2
-workspace $ws4 output DP-2
-workspace $ws5 output DP-2
-workspace $ws6 output DP-2
-workspace $ws7 output DP-2
-workspace $ws8 output DP-2
-workspace $ws9 output DP-2
-workspace $ws10 output DP-2
+workspace $ws0 output $secondary
+workspace $ws1 output $primary
+workspace $ws2 output $primary
+workspace $ws3 output $primary
+workspace $ws4 output $primary
+workspace $ws5 output $primary
+workspace $ws6 output $primary
+workspace $ws7 output $primary
+workspace $ws8 output $primary
+workspace $ws9 output $primary
+workspace $ws10 output $primary
 
 bindcode $mod+49 workspace number $ws0
 bindsym $mod+1 workspace number $ws1
