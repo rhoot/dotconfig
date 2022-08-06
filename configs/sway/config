@@ -186,6 +186,7 @@ bindsym $mod+Shift+e exec "swaynag -t warning -m 'You pressed the exit shortcut.
 # window placement
 for_window [title=".*"] inhibit_idle fullscreen
 for_window [app_id="org.gnome.Calculator"] floating enable
+for_window [app_id="^thunar$" title="^File Operation Progress$"] floating enable
 for_window [class="^Steam$" title="Friends List"] floating enable
 for_window [class="^Steam$" title="Screenshot Uploader"] floating enable
 for_window [class="^Steam$" title="Self Updater$"] floating enable
