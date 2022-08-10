@@ -52,9 +52,9 @@ bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +10%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -10%
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
-bindsym XF86AudioPlay exec ~/.config/sway/playerctl.sh play-pause
-bindsym XF86AudioNext exec ~/.config/sway/playerctl.sh next
-bindsym XF86AudioPrev exec ~/.config/sway/playerctl.sh previous
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 
 ###
@@ -258,6 +258,7 @@ exec blueman-applet
 exec lxpolkit
 exec mako
 exec nm-applet --indicator
+exec playerctld
 exec waybar
 
 ###
