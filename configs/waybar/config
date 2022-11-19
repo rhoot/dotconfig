@@ -82,10 +82,12 @@
     },
     "cpu": {
         "format": "{usage}% ",
-        "tooltip": false
+        "tooltip": false,
+        "on-click": ""
     },
     "memory": {
-        "format": "{}% "
+        "format": "{}% ",
+        "on-click": ""
     },
     "temperature": {
         // "thermal-zone": 2,
@@ -144,6 +146,9 @@
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
+    },
+    "sway/language": {
+        "on-click": ""
     },
     "custom/media": {
         "format": "{icon} {}",
