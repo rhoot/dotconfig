@@ -9,9 +9,11 @@ fi
 sudo -k
 
 script_dir="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+echo $script_dir
 
-for script in $(ls "$script_dir/config.d")
+for script in $(ls "$script_dir"/config.d/*.sh)
 do
+	script="$(basename "$script")"
 	echo -e "\033[1m>> \033[36m$script\033[0m"
 	"$script_dir/config.d/$script"
 done

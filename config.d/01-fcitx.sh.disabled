@@ -1,0 +1,18 @@
+#!/usr/bin/env -S bash -e
+
+source util.sh
+
+pacman_install \
+	fcitx5 \
+	fcitx5-configtool \
+	fcitx5-mozc \
+	fcitx5-gtk \
+	fcitx5-qt \
+	otf-ipafont
+
+mkdir -p ~/.config/environment.d
+cat > ~/.config/environment.d/50-fcitx.conf <<EOF
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
+EOF

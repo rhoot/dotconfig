@@ -14,6 +14,7 @@ done
 # Install packages
 install_pkgs \
 	blueman \
+	dolphin \
 	grim \
 	kitty \
 	mako \
@@ -23,7 +24,7 @@ install_pkgs \
 	swappy \
 	swayidle \
 	swaylock \
-	thunar
+	wl-clipboard
 
 # Arch packages
 pacman_install libpulse lxsession otf-font-awesome yay

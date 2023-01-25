@@ -1,0 +1,3 @@
+vsync=1 # off
+fps_limit=175
+no_display

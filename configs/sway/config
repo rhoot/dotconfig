@@ -48,8 +48,8 @@ input * {
 # Media buttons
 ###
 
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +10%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -10%
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 bindsym XF86AudioPlay exec playerctl play-pause
@@ -177,16 +177,19 @@ bindsym $mod+Shift+Right move workspace to output down
 # Program management
 ###
 
+for_window [title=".*"] inhibit_idle fullscreen
+
 # config
 bindsym $mod+Shift+c reload
 
 # exit
 bindsym $mod+Shift+e exec "swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway?' -B 'Yes, exit sway' 'swaymsg exit'"
 
-# window placement
-for_window [title=".*"] inhibit_idle fullscreen
+# floating
 for_window [app_id="org.gnome.Calculator"] floating enable
 for_window [app_id="^thunar$" title="^File Operation Progress$"] floating enable
+for_window [app_id="^org.kde.ark$"] floating enable
+for_window [app_id="^minecraft-launcher$"] floating enable
 for_window [class="^Steam$" title="Friends List"] floating enable
 for_window [class="^Steam$" title="Screenshot Uploader"] floating enable
 for_window [class="^Steam$" title="Self Updater$"] floating enable
@@ -196,7 +199,7 @@ for_window [class="^Steam$" title="^Steam Login$"] floating enable
 # window assignments
 assign [class="^discord$"] $ws0
 
-assign [class="^Firefox$"] $ws1
+assign [class="^[Ff]irefox$"] $ws1
 
 assign [class="^Gvim$"] $ws2
 assign [class="^neovide$"] $ws2
@@ -212,7 +215,7 @@ assign [class="^Lightning.bin.x86_64$"] $ws4
 assign [class="^ffxivlauncher.exe$"] $ws4
 assign [class="^xivlauncher.exe$"] $ws4
 assign [class="^valheim.x86_64$"] $ws4
-assign [class="^Minecraft 1"] $ws4
+assign [class="^Minecraft\*? 1"] $ws4
 
 
 ###
@@ -255,6 +258,8 @@ bindsym Mod1+Print exec ~/.config/sway/grim.sh window
 bindsym Shift+Print exec ~/.config/sway/grim.sh selection
 
 exec blueman-applet
+exec fcitx5 -d
+exec kwalletd5
 exec lxpolkit
 exec mako
 exec nm-applet --indicator
