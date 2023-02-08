@@ -11,8 +11,10 @@ export QT_QPA_PLATFORM=wayland
 export XDG_CURRENT_DESKTOP=sway
 export XDG_SESSION_DESKTOP=sway
 
-# systemd environment.d env variables
-# https://github.com/systemd/systemd/issues/7641
+# VRR cursor lag: https://gitlab.freedesktop.org/drm/amd/-/issues/2186
+export WLR_DRM_NO_ATOMIC=1
+
+# systemd environment.d env variables: https://github.com/systemd/systemd/issues/7641
 if [ -f /usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator ]; then
 	set -a
 	. /dev/fd/0 <<EOF
@@ -21,7 +23,8 @@ EOF
 	set +a
 fi
 
-exec sway "$@"
+# No VRR in fullscreen: https://github.com/swaywm/sway/issues/7370
+exec sway -Dnoscanout "$@"
 EOT
 
 # Make the sway wayland session run the script instead of the executable

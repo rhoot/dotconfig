@@ -35,7 +35,7 @@ set $secondary HDMI-A-1
 # Devices
 ###
 
-output $primary pos 0 0 res 3440x1440@175Hz adaptive_sync off
+output $primary pos 0 0 res 3440x1440@175Hz adaptive_sync on
 output $secondary pos 700 1440 res 1920x1080@60Hz
 
 input * {
@@ -227,9 +227,9 @@ font pango:DejaVu Sans Mono 8
 font pango:JetBrains Mono 8
 
 # no window borders
-for_window [class="."] border pixel 1
-default_border pixel 1
-default_floating_border pixel 1
+for_window [class="."] border pixel 3
+default_border pixel 3
+default_floating_border pixel 3
 
 # gaps
 smart_borders on
