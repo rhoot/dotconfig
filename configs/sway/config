@@ -226,10 +226,12 @@ font monospace 8
 font pango:DejaVu Sans Mono 8
 font pango:JetBrains Mono 8
 
+client.focused #33ccff #33ccff #ffffff
+
 # no window borders
-for_window [class="."] border pixel 3
-default_border pixel 3
-default_floating_border pixel 3
+for_window [class="."] border pixel 2
+default_border pixel 2
+default_floating_border pixel 2
 
 # gaps
 smart_borders on
@@ -245,7 +247,7 @@ output * bg ~/.config/wallpaper.png fill
 ###
 
 # terminal / file browser
-bindsym $mod+BackSpace exec thunar
+bindsym $mod+BackSpace exec dolphin
 bindsym $mod+Return exec kitty
 
 # program launcher
